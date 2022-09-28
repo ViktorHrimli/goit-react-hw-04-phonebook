@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useLocalStorage } from './CastomHook/LocalStoregeHook';
 import Notiflix from 'notiflix';
 import { Box } from 'commonStyle/Common.styled';
 import { nanoid } from 'nanoid';
@@ -8,17 +9,8 @@ import { Renderlist } from './ListContact/ListContact';
 import { ContactList } from './ListContact/ListContact.styled';
 
 export const Phonebook = () => {
-  const [contact, setContact] = useState(() => {
-    return JSON.parse(localStorage.getItem('contact') || []);
-  });
+  const [contact, setContact] = useLocalStorage('contact');
   const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    const pars = JSON.parse(localStorage.getItem('contact')) || [];
-    if (!contact.map(item => item.name).includes(pars.map(item => item.name))) {
-      localStorage.setItem('contact', JSON.stringify(contact));
-    }
-  }, [contact]);
 
   const hendleSubmit = ({ name, number }) => {
     const item = {
